@@ -18,6 +18,8 @@ It depends on your system having [PS4 Remote Play](https://remoteplay.dl.playsta
 
 The `OS X Command Line Tools` needs [to be installed](https://stackoverflow.com/a/53078282/584548).
 
+Relies on `python2` (see #2), which can be installed via `brew install python@2`
+
 # SE File Format
 SE files are, generally speaking, a mapping between an input key, mouse button, or mouse movement to a DualShock 4 input. See the example file (`example.se`) for a breakdown of the format.
 
