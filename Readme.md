@@ -26,6 +26,9 @@ SE files are, generally speaking, a mapping between an input key, mouse button, 
 # How It Works
 ShockEmu works by intercepting the IOHID calls of PS4 Remote Play application and presents an emulated DualShock controller. It also hooks into the input routines of the application, to catch keyboard and mouse inputs, which then get mapped according to your SE file.
 
+# But It Is Not Working!
+You may have to [turn off System Integrity Protection via 'csrutil'](https://www.imore.com/how-turn-system-integrity-protection-macos) in order for `DYLD_INSERT_LIBRARIES` to function on the newest macOS. Thanks [Ben](https://github.com/benh57) for figuring this out!
+
 # Pro Tip
 The `alias` below allows for typing `play` / `enter` anywhere in `Terminal` and have `RemotePlay.app` launched with the above keys mapped:
 ```
