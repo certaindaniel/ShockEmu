@@ -1,4 +1,4 @@
-import json, string, sys
+import json, string, sys, filecmp
 
 letters = 0, 11, 8, 2, 14, 3, 5, 4, 34, 38, 40, 37, 46, 45, 31, 35, 12, 15, 1, 17, 32, 9, 13, 7, 16, 6
 nums = 29, 18, 19, 20, 21, 23, 22, 26, 28, 25
@@ -87,3 +87,8 @@ with open('mapKeys.h', 'w') as fp:
 }}'''.format(**mouseLook),file=fp)
 		else:
 			print ('Unknown mouseLook type:',mouseLook)
+
+if (filecmp.cmp('mapKeys.h', 'testMapKeys.h')):
+	print("mapKeys.h file generated successfully")
+else:
+	print("mapKeys.h file FAILED to generate")
