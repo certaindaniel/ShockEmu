@@ -28,38 +28,50 @@ for i, x in enumerate(letters):
 	keys[chr(ord('a') + i)] = x
 for i, x in enumerate(nums):
 	keys[str(i)] = x
+print(keys)
+print(axes)
 
 def parse(data):
 	lines = (line.split('#', 1)[0].strip() for line in data.split('\n'))
 	return dict(map(string.strip, line.split('=', 1)) for line in lines if line)
 
-with file('mapKeys.h', 'w') as fp:
+with open('mapKeys.h', 'w') as fp:
 	keysticks = []
 	mouseLook = None
-	for k, v in parse(file(sys.argv[1]).read()).items():
-		if k in keys or k == 'leftMouse' or k == 'rightMouse':
-			if k in keys:
-				k = 'DOWN(%i)' % keys[k]
-			if v in buttons:
-				print >>fp, '%s = %s;' % (v, k)
-			elif v in axes:
-				stick = v[:-2]
-				if stick not in keysticks:
-					print >>fp, '%sX = %sY = 0;' % (stick, stick)
-					keysticks.append(stick)
-				print >>fp, 'if(%s) %s %s= 1;' % (k, v[:-1], v[-1])
+	with open(sys.argv[1]) as f:
+		for line in f:
+			try:
+				k, v = line.replace(" ", "").split("=")
+			except:
+				print("cannot read line")
+				continue
+			if k in keys or k == 'leftMouse' or k == 'rightMouse':
+				print('{k},{v}'.format(k=k,v=v))
+				if k in keys:
+					k = 'DOWN({})'.format(keys[k])
+					print(k)
+				if v in axes:
+					print("found value in axes")
+				if v in buttons:
+					print('{v} = {k};',file=fp)
+				elif v in axes:
+					stick = v[:-2]
+					if stick not in keysticks:
+						print('{x}X = {y}Y = 0;'.format(x=stick, y=stick),file=fp)
+						keysticks.append(stick)
+					print ('if({k}) {x} {y}= 1;'.format(k=k, x = v[:-1], y = v[-1]),file=fp)
+				else:
+					print ('Unknown button',v)
+			elif k.startswith('mouseLook.'):
+				if mouseLook is None:
+					mouseLook = dict(type='linear', deadZone='.1', decay='10', multX='1', multY='1', stick='right')
+				mouseLook[k.split('.', 1)[1]] = v
 			else:
-				print 'Unknown button:', v
-		elif k.startswith('mouseLook.'):
-			if mouseLook is None:
-				mouseLook = dict(type='linear', deadZone='.1', decay='10', multX='1', multY='1', stick='right')
-			mouseLook[k.split('.', 1)[1]] = v
-		else:
-			print 'Unknown key:', k
+				print ('Unknown key:',k,v)
 
 	if mouseLook is not None:
 		if mouseLook['type'] == 'linear':
-			print >>fp, \
+			print (\
 '''if(mouseMoved) {{
 	{stick}X = -mouseAccelX;
 	{stick}Y = mouseAccelY;
@@ -72,6 +84,6 @@ with file('mapKeys.h', 'w') as fp:
 		[self decayKick];
 	}} else
 		{stick}X = {stick}Y = 0;
-}}'''.format(**mouseLook)
+}}'''.format(**mouseLook),file=fp)
 		else:
-			print 'Unknown mouseLook type:', mouseLook
+			print ('Unknown mouseLook type:',mouseLook)
