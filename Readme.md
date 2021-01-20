@@ -8,8 +8,6 @@
 
 # Setup
 ```zsh
-git clone git@github.com:backslash-f/ShockEmu.git
-cd ShockEmu
 ./build.sh only_keyboard.se
 ./run.sh
 ```
@@ -33,6 +31,6 @@ You may have to [turn off System Integrity Protection via 'csrutil'](https://www
 The `alias` below allows for typing `play` / `enter` anywhere in `Terminal` and have `RemotePlay.app` launched with the above keys mapped:
 ```
 $ cat ~/.zshrc | grep play
-alias play="pushd /Users/backslash-f/Downloads/source/backslash-f/ShockEmu; ./run.sh &; popd"
+alias play="pushd [REPOSITORY_ROOT]; ./run.sh &; popd"
 ```
 👆🏻`ShockEmu` repo location must be updated according to your machine.
