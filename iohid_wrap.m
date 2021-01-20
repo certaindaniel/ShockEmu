@@ -11,11 +11,11 @@
 #include <dlfcn.h>
 
 typedef struct {
-	uint8_t id, 
-	left_x, left_y, 
-	right_x, right_y, 
-	buttons1, buttons2, buttons3, 
-	left_trigger, right_trigger, 
+	uint8_t id,
+	left_x, left_y,
+	right_x, right_y,
+	buttons1, buttons2, buttons3,
+	left_trigger, right_trigger,
 	unk1, unk2, unk3;
 	int16_t gyro_x, gyro_y, gyro_z;
 	int16_t accel_x, accel_y, accel_z;
@@ -121,7 +121,7 @@ IOReturn IOHIDDeviceSetReport( IOHIDDeviceRef device, IOHIDReportType reportType
 
 	uint64_t ticks;
 
-	bool X, O, square, triangle, PS, touchpad, options, share, 
+	bool X, O, square, triangle, PS, touchpad, options, share,
 	L1, L2, L3, R1, R2, R3, dpadUp, dpadDown, dpadLeft, dpadRight;
 	float leftX, leftY, rightX, rightY; // -1 to 1
 
@@ -204,7 +204,7 @@ static HIDRunner *hid;
 	else if(dpadDown)
 		dpad = 4;
 	prep->buttons1 = (triangle ? (1 << 7) : 0) | (O ? (1 << 6) : 0) | (X ? (1 << 5) : 0) | (square ? (1 << 4) : 0) | dpad;
-	prep->buttons2 = (R3 ? (1 << 7) : 0) | (L3 ? (1 << 6) : 0) | (options ? (1 << 5) : 0) | (share ? (1 << 4) : 0) | 
+	prep->buttons2 = (R3 ? (1 << 7) : 0) | (L3 ? (1 << 6) : 0) | (options ? (1 << 5) : 0) | (share ? (1 << 4) : 0) |
 		(R2 ? (1 << 3) : 0) | (L2 ? (1 << 2) : 0) | (R1 ? (1 << 1) : 0) | (L1 ? (1 << 0) : 0);
 	prep->buttons3 = ((ticks << 2) & 0xFF) | (touchpad ? 2 : 0) | (PS ? 1 : 0);
 	prep->left_trigger = L2 ? 255 : 0;
