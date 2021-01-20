@@ -3,7 +3,7 @@
 # Key Mapping
 `only_keyboard.se` goes like this:
 
-![Key Mapping](https://github.com/backslash-f/ShockEmu/blob/master/KeyMapping.png)
+![Key Mapping](https://github.com/backslash-f/ShockEmu/blob/master/Images/KeyMapping.png)
 
 # Requirements
 
@@ -27,10 +27,39 @@ SE files are, generally speaking, a mapping between an input key, mouse button, 
 # How It Works
 ShockEmu works by intercepting the IOHID calls of PS Remote Play application and presents an emulated DualShock controller. It also hooks into the input routines of the application, to catch keyboard and mouse inputs, which then get mapped according to your SE file.
 
-# Pro Tip
+# Pro Tips
+
+### Launch from Terminal
 The `alias` below allows for typing `play` / `enter` anywhere in `Terminal` and have `RemotePlay.app` launched with the above keys mapped:
-```
+
+```bash
 $ cat ~/.zshrc | grep play
 alias play="pushd [REPOSITORY_ROOT]; ./run.sh &; popd"
 ```
-👆🏻`ShockEmu` repo location must be updated according to your machine.
+
+### Launch from Terminal + Key Mapping Image
+Have `Preview` opening the key mapping image for you and `RemotePlay.app` launched:
+
+![Key Mapping + Remote Play](https://github.com/backslash-f/ShockEmu/blob/master/Images/KeyMapping_PSRemotePlay.png)
+
+Save this script somewhere (e.g.: `[SCRIPT_DIR]/play.sh`)
+
+```bash
+#!/bin/bash
+
+SHOCK_EMU=$'[REPOSITORY_ROOT]'
+
+open -a Preview $SHOCK_EMU/Images/KeyMapping.png
+
+pushd $SHOCK_EMU
+./run.sh &
+popd
+```
+
+`chmod a+x` it and create an `alias` that looks like this:
+```bash
+$ cat ~/.zshrc | grep play
+alias play=[SCRIPT_DIR]/play.sh
+```
+
+Enjoy! 🎮
