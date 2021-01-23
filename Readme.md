@@ -11,7 +11,7 @@
 
 - The `OS X Command Line Tools` [needs to be installed](https://stackoverflow.com/a/53078282/584548).
 
-- Relies on `Python 3`, which can be installed via `brew install python`
+- Relies on `Python 3` (kudos to [willoftw](https://github.com/willoftw)). `brew install python`
 
 - You have to [turn off System Integrity Protection via 'csrutil'](https://www.imore.com/how-turn-system-integrity-protection-macos) in order for `DYLD_INSERT_LIBRARIES` to function on the newest macOS. (Thanks [Ben](https://github.com/benh57) for figuring this out!)
 
