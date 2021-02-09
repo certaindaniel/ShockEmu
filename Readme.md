@@ -9,7 +9,7 @@
 
 - It depends on your system having [PS Remote Play](https://remoteplay.dl.playstation.net/remoteplay/lang/en/index.html) installed at `/Applications/RemotePlay.app`. If this is not the case, you'll need to modify `run.sh` accordingly.
 
-- The `OS X Command Line Tools` [needs to be installed](https://stackoverflow.com/a/53078282/584548).
+- The [latest `Command Line Tools`](https://developer.apple.com/download/more/) needs to be installed.
 
 - Relies on `Python 3` (kudos to [willoftw](https://github.com/willoftw)). `brew install python`
 
