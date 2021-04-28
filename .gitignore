@@ -203,9 +203,3 @@ dmypy.json
 .history
 
 # End of https://www.gitignore.io/api/python,objective-c,visualstudiocode
-
-### Custom exclusions ###
-
-# Ignore all files generated after a successful build
-iohid_wrap.dylib
-mapKeys.h
