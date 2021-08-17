@@ -22,10 +22,10 @@
 ```
 
 # SE File Format
-SE files are, generally speaking, a mapping between an input key, mouse button, or mouse movement to a DualShock input. See the example file (`example.se`) for a breakdown of the format.
+SE files are, generally speaking, a mapping between an input key to a DualShock input. See the `only_keyboard.se` file for a breakdown of the format.
 
 # How It Works
-ShockEmu works by intercepting the IOHID calls of PS Remote Play application and presents an emulated DualShock controller. It also hooks into the input routines of the application, to catch keyboard and mouse inputs, which then get mapped according to your SE file.
+ShockEmu works by intercepting the IOHID calls of PS Remote Play application and presents an emulated DualShock controller. It also hooks into the input routines of the application to catch keyboard inputs, which then get mapped according to your SE file.
 
 # Pro Tips
 
