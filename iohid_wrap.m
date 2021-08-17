@@ -1,14 +1,13 @@
-#import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include <IOKit/IOTypes.h>
 #include <IOKit/IOReturn.h>
 #include <IOKit/hid/IOHIDLib.h>
-#import <objc/runtime.h>
-
 #include <stdio.h>
 #include <unistd.h>
 #include <dlfcn.h>
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
+#import <objc/runtime.h>
 
 typedef struct {
 	uint8_t id,
@@ -106,8 +105,6 @@ IOReturn IOHIDDeviceSetReport( IOHIDDeviceRef device, IOHIDReportType reportType
 	return kIOReturnSuccess;
 }
 
-#define MOUSESTEPS 10
-
 @interface HIDRunner:NSObject
 {
 	CFRunLoopRef runLoop;
@@ -125,13 +122,8 @@ IOReturn IOHIDDeviceSetReport( IOHIDDeviceRef device, IOHIDReportType reportType
 	L1, L2, L3, R1, R2, R3, dpadUp, dpadDown, dpadLeft, dpadRight;
 	float leftX, leftY, rightX, rightY; // -1 to 1
 
-	bool keys[256], leftMouse, rightMouse;
+	bool keys[256];
 	bool kicked, decayKicked;
-
-	bool mouseMoved;
-	NSPoint lastMouse;
-	CFAbsoluteTime lastMouseTime;
-	float mouseAccelX, mouseAccelY, mouseVelX, mouseVelY;
 }
 @end
 
@@ -152,11 +144,6 @@ static HIDRunner *hid;
 		id cls = NSClassFromString(@"HIDRunner");
 		SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (keyDown:));
 		SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (keyUp:));
-		SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (mouseMoved:));
-		SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (mouseDown:));
-		SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (mouseUp:));
-		SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (rightMouseDown:));
-		SWAP(@"_TtC10RemotePlay17RPWindowStreaming", (rightMouseUp:));
 	});
 }
 - (id)initWithRunLoop:(CFRunLoopRef)_runLoop andMode:(CFStringRef)_mode {
@@ -247,50 +234,13 @@ static HIDRunner *hid;
 }
 
 - (void)keyDown:(NSEvent *)event {
-	//NSLog(@"down %i", [event keyCode]);
+	printf("down %hu", [event keyCode]);
 	hid->keys[[event keyCode]] = true;
 	[hid kick];
 }
 - (void)keyUp:(NSEvent *)event {
-	//NSLog(@"up %i", [event keyCode]);
+	printf("up %hu", [event keyCode]);
 	hid->keys[[event keyCode]] = false;
-	[hid kick];
-}
-
-- (void)mouseMoved:(NSEvent *)event {
-	NSLog(@"mouseMoved");
-
-	NSPoint mouse = [event locationInWindow];
-	CFAbsoluteTime curtime = CFAbsoluteTimeGetCurrent();
-	float velX = (mouse.x - hid->lastMouse.x) / (curtime - hid->lastMouseTime);
-	float velY = (mouse.y - hid->lastMouse.y) / (curtime - hid->lastMouseTime);
-	hid->mouseAccelX = (velX - hid->mouseVelX) / (curtime - hid->lastMouseTime);
-	hid->mouseAccelY = (velY - hid->mouseVelY) / (curtime - hid->lastMouseTime);
-	NSLog(@"vel %f %f", velX, velY);
-	NSLog(@"accel %f %f", hid->mouseAccelX, hid->mouseAccelY);
-	hid->mouseVelX = velX;
-	hid->mouseVelY = velY;
-	hid->lastMouseTime = curtime;
-	hid->lastMouse = mouse;
-	hid->mouseMoved = true;
-
-	[hid kick];
-	[hid decayKick];
-}
-- (void)mouseDown:(NSEvent *)event {
-	hid->leftMouse = true;
-	[hid kick];
-}
-- (void)mouseUp:(NSEvent *)event {
-	hid->leftMouse = false;
-	[hid kick];
-}
-- (void)rightMouseDown:(NSEvent *)event {
-	hid->rightMouse = true;
-	[hid kick];
-}
-- (void)rightMouseUp:(NSEvent *)event {
-	hid->rightMouse = false;
 	[hid kick];
 }
 @end
