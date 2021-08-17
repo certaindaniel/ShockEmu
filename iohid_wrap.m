@@ -61,7 +61,7 @@ void IOHIDManagerUnscheduleFromRunLoop( IOHIDManagerRef manager, CFRunLoopRef ru
 }
 
 IOReturn IOHIDDeviceOpen( IOHIDDeviceRef device, IOOptionBits options) {
-	printf("IOHIDDeviceOpen %08x\n", (unsigned int) device);
+	printf("IOHIDDeviceOpen %08lx\n", (unsigned long int) device);
 	return kIOReturnSuccess;
 }
 
