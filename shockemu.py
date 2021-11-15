@@ -18,6 +18,8 @@ keys = dict(
 	comma=43, period=47, slash=44, backslash=42,
 	delete=51,
 	escape=53,
+	semicolon=41,
+	singlequotation=39,
 )
 
 buttons = 'dpadUp dpadLeft dpadRight dpadDown X O square triangle PS touchpad options share L1 L2 L3 R1 R2 R3'.split(' ')
